@@ -1,6 +1,6 @@
 module Bluepill
   module DSL
-    class ApplicationMethods < ::Bluepill::DSL::Base
+    class ApplicationMethods < Base
       
     end
   end
