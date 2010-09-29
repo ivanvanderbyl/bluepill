@@ -7,6 +7,8 @@ require 'timeout'
 require 'logger'
 # require 'ostruct'
 
+require "blockenspiel"
+
 require 'active_support/inflector'
 require 'active_support/core_ext/hash'
 require 'active_support/core_ext/numeric'
@@ -23,6 +25,7 @@ require "bluepill/condition_watch"
 require 'bluepill/trigger'
 require 'bluepill/triggers/flapping'
 require "bluepill/dsl"
+require "bluepill/dsl/base"
 require "bluepill/dsl/application_methods"
 require "bluepill/system"
 
