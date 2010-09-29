@@ -1,38 +1,32 @@
 module Bluepill
   module DSL
     class ApplicationMethods < Base
-      attr_accessor :app, :pid_files, :process_proxy, :process_keys
+      attr_accessor :app, :pid_files, :process_keys
       
       def initialize(app)
         self.app = app
         self.pid_files = {}
         self.process_keys = {}
-        
-        $stdout.puts "====> Loading application #{app.name}..."
       end
       
-      # Global attributes, which will be passed to each process
-      dsl_attr_accessor :working_dir, :uid, :gid, :environment
-      
       # Creates a new process to monior
-      def process(process_name, &process_block)
-        process_proxy = @@process_proxy.new(process_name)
-        process_block.call(process_proxy)
+      def process(process_name, &block)
+        process_proxy = ProcessMethods.new(process_name.to_s, self)
+        Blockenspiel.invoke(block, process_proxy)
+        process_proxy.assign_process_attributes!
+        
         process_proxy.create_child_process_template
-        
         set_app_wide_attributes(process_proxy)
-        
         assign_default_pid_file(process_proxy, process_name)
-        
         validate_process(process_proxy, process_name)
         
         group = process_proxy.attributes.delete(:group)
-        process = process_proxy.to_process(process_name)    
+        process = process_proxy.to_process(process_name)
         
         self.app.add_process(process, group)
       end
       
-      # Exclude these methods from being callable from within the DSL
+      # Exclude these methods from being callable from within the DSL (using paramerless blocks)
       # A bit like making them private in a class.
       dsl_method :validate_process, false
       dsl_method :set_app_wide_attributes, false

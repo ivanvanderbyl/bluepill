@@ -27,6 +27,7 @@ require 'bluepill/triggers/flapping'
 require "bluepill/dsl"
 require "bluepill/dsl/base"
 require "bluepill/dsl/application_methods"
+require "bluepill/dsl/process_methods"
 require "bluepill/system"
 
 require "bluepill/process_conditions"
