@@ -2,16 +2,18 @@ PATH
   remote: .
   specs:
     bluepill (0.0.43)
-      activesupport (>= 2.3.4)
+      activesupport (= 2.3.8)
       blankslate (>= 2.1.2.2)
+      blockenspiel (= 0.4.1)
       daemons (>= 1.0.9)
-      state_machine (>= 0.8.0)
+      state_machine (>= 0.9.0)
 
 GEM
   remote: http://rubygems.org/
   specs:
-    activesupport (3.0.0)
+    activesupport (2.3.8)
     blankslate (2.1.2.3)
+    blockenspiel (0.4.1)
     daemons (1.1.0)
     rspec (1.3.0)
     state_machine (0.9.4)
@@ -20,9 +22,10 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  activesupport (>= 2.3.4)
+  activesupport (= 2.3.8)
   blankslate (>= 2.1.2.2)
+  blockenspiel (= 0.4.1)
   bluepill!
   daemons (>= 1.0.9)
   rspec
-  state_machine (>= 0.8.0)
+  state_machine (>= 0.9.0)

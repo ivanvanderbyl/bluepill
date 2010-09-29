@@ -5,6 +5,7 @@ require 'monitor'
 require 'syslog'
 require 'timeout'
 require 'logger'
+# require 'ostruct'
 
 require 'active_support/inflector'
 require 'active_support/core_ext/hash'
@@ -21,7 +22,8 @@ require "bluepill/logger"
 require "bluepill/condition_watch"
 require 'bluepill/trigger'
 require 'bluepill/triggers/flapping'
-# require "bluepill/dsl"
+require "bluepill/dsl"
+require "bluepill/dsl/application_methods"
 require "bluepill/system"
 
 require "bluepill/process_conditions"
