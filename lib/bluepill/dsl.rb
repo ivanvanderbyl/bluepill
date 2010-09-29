@@ -10,9 +10,10 @@ module Bluepill
       
       app = Application.new(app_name.to_s, options, &block)
       Blockenspiel.invoke(block, DSL::ApplicationMethods.new(app))
-      app.load
       
-      $stdout.print "===> Done."
+      $stdout.print " Done.\n"
+      
+      app.load
     rescue => e
       $stderr.puts "DSL implementation error: #{e.message}"
       exit(1)

@@ -2,19 +2,19 @@ require 'rubygems'
 require 'bluepill'
 require 'logger'
 
-ROOT_DIR = "/tmp/bp"
+ROOT_DIR = "/Users/ivan/dev/ruby/bluepill/tmp"
 
 # Watch with 
 # watch -n0.2 'ps axu | egrep "(CPU|forking|bluepill|sleep)" | grep -v grep | sort'
-Bluepill.application(:sample_app) do |app|
-  0.times do |i|
+Bluepill.application(:sample_app, :base_dir => ROOT_DIR) do |app|
+  1.times do |i|
     app.process("process_#{i}") do |process|
       process.pid_file = "#{ROOT_DIR}/pids/process_#{i}.pid"
       
       # I could not figure out a portable way to
       # specify the path to the sample forking server across the diff developer laptops.
       # Since this code is eval'ed we cannot reliably use __FILE__
-      process.start_command = "/Users/rohith/work/bluepill/bin/sample_forking_server #{4242 + i}"
+      process.start_command = "/Users/ivan/dev/ruby/bluepill/bin/sample_forking_server #{4242 + i}"
       process.stop_command = "kill -INT {{PID}}"
       process.daemonize = true
       
@@ -22,7 +22,7 @@ Bluepill.application(:sample_app) do |app|
       process.restart_grace_time = 7.seconds
       process.stop_grace_time = 7.seconds
       
-      process.uid = "rohith"
+      process.uid = "ivan"
       process.gid = "staff"
       
       # process.checks :cpu_usage, :every => 10, :below => 0.5, :times => [5, 5]
@@ -61,7 +61,7 @@ Bluepill.application(:sample_app) do |app|
     end
   end
   
-  1.times do |i|
+  0.times do |i|
     app.process("group_process_#{i}") do |process|
       process.uid = "rohith"
       process.gid = "wheel"
