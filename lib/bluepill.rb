@@ -21,7 +21,7 @@ require "bluepill/logger"
 require "bluepill/condition_watch"
 require 'bluepill/trigger'
 require 'bluepill/triggers/flapping'
-require "bluepill/dsl"
+# require "bluepill/dsl"
 require "bluepill/system"
 
 require "bluepill/process_conditions"
