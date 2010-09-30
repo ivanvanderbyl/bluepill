@@ -50,6 +50,13 @@ in the group '#{self.group}'
         # Validate existence pid_file directory
         pid_file_dir = File.dirname(self.pid_file)
         raise InvalidWorkingDirectoryError, "pid_file directory '#{pid_file_dir}' doesn't exist" unless File.directory?(pid_file_dir)
+        
+        # Make sure we can actually write to this file
+        unless self.uid.nil? || self.gid.nil?
+          System.chown_pid_file_directory(:uid => self.uid, :gid => self.gid, :pid_file => self.pid_file)
+        end
+        
+        # raise UnableToWritePidFileError, "Unable to write pid_file, please check permissions on '#{self.pid_file}'" unless System.can_write_pid_file(self.pid_file)
       end
       
       def assign_process_attributes!

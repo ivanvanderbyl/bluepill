@@ -242,13 +242,12 @@ module Bluepill
       self.clear_pid unless @process_running
       @process_running
     end
-    
+
     def start_process
       logger.warning "Executing start command: #{start_command}"
       
       if self.daemonize?
         System.daemonize(start_command, self.system_command_options)
-        
       else
         # This is a self-daemonizing process
         with_timeout(start_grace_time) do
@@ -324,7 +323,7 @@ module Bluepill
     rescue
       false
     end
-    
+        
     def actual_pid
       @actual_pid ||= begin
         if pid_file

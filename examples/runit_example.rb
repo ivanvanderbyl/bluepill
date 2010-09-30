@@ -6,10 +6,10 @@ require 'logger'
 # You must declare only one application per config when foreground mode specified
 #
 # http://github.com/akzhan/runit-man used as example of monitored application.
-
+ROOT_DIR = "/Users/ivan/dev/ruby/bluepill/tmp"
 Bluepill.application(:runit_man, :foreground => true) do |app|
   app.process("runit-man") do |process|
-    process.pid_file = "/etc/service/runit-man/supervise/pid"
+    process.pid_file = "#{ROOT_DIR}/pid"
       
     process.start_command   = "/usr/bin/sv start runit-man"
     process.stop_command    = "/usr/bin/sv stop runit-man"

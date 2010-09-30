@@ -5,5 +5,6 @@ module Bluepill
   class InvalidWorkingDirectoryError < DSLConfigError; end
   class DuplicateProcessNameError < DSLConfigError; end
   class DuplicatePidFileError < DSLConfigError; end
+  class UnableToWritePidFileError < DSLConfigError; end
   class MissingRequiredAttributeError < DSLConfigError; end
 end

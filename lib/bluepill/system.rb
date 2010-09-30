@@ -87,6 +87,10 @@ module Bluepill
       end
     end
     
+    def chown_pid_file_directory(options)
+      FileUtils.chown(options[:uid], options[:gid], File.dirname(options[:pid_file]))
+    end
+    
     # Returns the stdout, stderr and exit code of the cmd
     def execute_blocking(cmd, options = {})
       rd, wr = IO.pipe
@@ -202,14 +206,16 @@ module Bluepill
       end
     end
     
-    def can_write_pid_file(pid_file, logger)
+    def can_write_pid_file(pid_file, logger = nil)
       FileUtils.touch(pid_file)
       File.unlink(pid_file)
       return true
       
     rescue Exception => e
-      logger.warning "%s - %s" % [e.class.name, e.message]
-      e.backtrace.each {|l| logger.warning l}
+      unless logger.nil?
+        logger.warning "%s - %s" % [e.class.name, e.message]
+        e.backtrace.each {|l| logger.warning l}
+      end
       return false
     end
     
