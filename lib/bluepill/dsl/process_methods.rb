@@ -29,7 +29,7 @@ in the group '#{self.group}'
                 
         # validate required attributes, start_command and pid_file
         [:start_command, :pid_file].each do |required_attr|
-          if self.send(required_attr).blank?
+          if self.send(required_attr).nil?
             raise MissingRequiredAttributeError, "You must specify a #{required_attr} for '#{name}'"
           end
         end
