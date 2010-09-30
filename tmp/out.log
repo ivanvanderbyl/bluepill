@@ -1,0 +1,9 @@
+W, [2010-09-30T15:39:37.711527 #35821]  WARN -- : [sample_app:process_0] pid_file /Users/ivan/dev/ruby/bluepill/tmp/pids/process_0.pid does not exist or cannot be read
+W, [2010-09-30T15:39:37.713986 #35821]  WARN -- : [sample_app:process_0] pid_file /Users/ivan/dev/ruby/bluepill/tmp/pids/process_0.pid does not exist or cannot be read
+W, [2010-09-30T15:39:37.714302 #35821]  WARN -- : [sample_app:process_0] pid_file /Users/ivan/dev/ruby/bluepill/tmp/pids/process_0.pid does not exist or cannot be read
+W, [2010-09-30T15:39:37.714978 #35821]  WARN -- : [sample_app:process_0] Executing start command: /Users/ivan/dev/ruby/bluepill/bin/sample_forking_server 4242
+W, [2010-09-30T15:39:37.742853 #35821]  WARN -- : [sample_app:process_0] Clearing child list
+I, [2010-09-30T15:39:37.743151 #35821]  INFO -- : [sample_app:process_0] Going from down => starting
+W, [2010-09-30T15:39:38.744965 #35821]  WARN -- : [sample_app:process_0] Clearing child list
+I, [2010-09-30T15:39:38.745100 #35821]  INFO -- : [sample_app:process_0] Going from starting => up
+I, [2010-09-30T15:39:38.759245 #35821]  INFO -- : [sample_app:process_0] Existing children: . Got new children: [35844, 35845, 35846] for 35833

@@ -1,0 +1,429 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>File: README.md</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+  <div id="fileHeader">
+    <h1>README.md</h1>
+    <table class="header-table">
+    <tr class="top-aligned-row">
+      <td><strong>Path:</strong></td>
+      <td>README.md
+      </td>
+    </tr>
+    <tr class="top-aligned-row">
+      <td><strong>Last Update:</strong></td>
+      <td>Mon Sep 27 09:11:08 +1000 2010</td>
+    </tr>
+    </table>
+  </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <p>
+# This is Ivan&#8216;s fork of <a
+href="../classes/Bluepill.html">Bluepill</a>, it&#8216;s largely
+experimental and might not work as expected, so you will probably want to
+use this fork: [<a
+href="http://github.com/arya/bluepill](http://github.com/arya/bluepill">github.com/arya/bluepill](http://github.com/arya/bluepill</a>)
+</p>
+<p>
+## This fork contains a redesigned, much simpler DSL, all examples and docs
+will not be compatible with other forks.
+</p>
+<p>
+# <a href="../classes/Bluepill.html">Bluepill</a> <a
+href="../classes/Bluepill.html">Bluepill</a> is a simple process monitoring
+tool written in Ruby.
+</p>
+<p>
+## Installation It&#8216;s hosted on [gemcutter.org][gemcutter].
+</p>
+<pre>
+    sudo gem install bluepill
+</pre>
+<p>
+In order to take advantage of logging with syslog, you also need to setup
+your syslog to log the local6 facility. Edit the appropriate config file
+for your syslogger (/etc/syslog.conf for syslog) and add a line for local6:
+</p>
+<pre>
+    local6.*          /var/log/bluepill.log
+</pre>
+<p>
+You&#8216;ll also want to add _/var/log/bluepill.log_ to
+_/etc/logrotate.d/syslog_ so that it gets rotated.
+</p>
+<p>
+Lastly, create the _/var/bluepill_ directory for bluepill to store its pid
+and sock files.
+</p>
+<p>
+## Usage ### Config <a href="../classes/Bluepill.html">Bluepill</a>
+organizes processes into 3 levels: application -&gt; group -&gt; process.
+Each process has a few attributes that tell bluepill how to start, stop,
+and restart it, where to look or put the pid file, what process conditions
+to monitor and the options for each of those.
+</p>
+<p>
+The minimum config file looks something like this:
+</p>
+<pre>
+    Bluepill.application(:app_name) do
+      process(:process_name) do
+        start_command &quot;/usr/bin/some_start_command&quot;
+        pid_file &quot;/tmp/some_pid_file.pid&quot;
+      end
+    end
+</pre>
+<p>
+Note that since we specified a PID file and start command, bluepill assumes
+the process will daemonize itself. If we wanted bluepill to daemonize it
+for us, we can do (note we still need to specify a PID file):
+</p>
+<pre>
+    Bluepill.application(:app_name) do
+      process(:process_name) do
+        start_command &quot;/usr/bin/some_start_command&quot;
+        pid_file &quot;/tmp/some_pid_file.pid&quot;
+        daemonize true
+      end
+    end
+</pre>
+<p>
+If you don&#8216;t specify a stop command, a TERM signal will be sent by
+default. Similarly, the default restart action is to issue stop and then
+start.
+</p>
+<p>
+Now if we want to do something more meaningful, like actually monitor the
+process, we do:
+</p>
+<pre>
+    Bluepill.application(:app_name) do
+      process(:process_name) do
+        start_command &quot;/usr/bin/some_start_command&quot;
+        pid_file &quot;/tmp/some_pid_file.pid&quot;
+
+        checks :cpu_usage, :every =&gt; 10.seconds, :below =&gt; 5, :times =&gt; 3
+      end
+    end
+</pre>
+<p>
+We added a line that checks every 10 seconds to make sure the cpu usage of
+this process is below 5 percent; 3 failed checks results in a restart. We
+can specify a two-element array for the <em>times</em> option to say that
+it 3 out of 5 failed attempts results in a restart.
+</p>
+<p>
+To watch memory usage, we just add one more line:
+</p>
+<pre>
+    Bluepill.application(:app_name) do
+      process(:process_name) do
+        start_command &quot;/usr/bin/some_start_command&quot;
+        pid_file                        &quot;/tmp/some_pid_file.pid&quot;
+
+        checks :cpu_usage, :every =&gt; 10.seconds, :below =&gt; 5, :times =&gt; 3
+        checks :mem_usage, :every =&gt; 10.seconds, :below =&gt; 100.megabytes, :times =&gt; [3,5]
+      end
+    end
+</pre>
+<p>
+We can tell bluepill to give a process some grace time to
+start/stop/restart before resuming monitoring:
+</p>
+<pre>
+    Bluepill.application(:app_name) do
+      process(:process_name) do
+        start_command                   &quot;/usr/bin/some_start_command&quot;
+        pid_file                                                &quot;/tmp/some_pid_file.pid&quot;
+        start_grace_time                3.seconds
+        stop_grace_time                 5.seconds
+        restart_grace_time      8.seconds
+
+        checks :cpu_usage, :every =&gt; 10.seconds, :below =&gt; 5, :times =&gt; 3
+        checks :mem_usage, :every =&gt; 10.seconds, :below =&gt; 100.megabytes, :times =&gt; [3,5]
+      end
+    end
+</pre>
+<p>
+We can group processes by name:
+</p>
+<pre>
+    Bluepill.application(:app_name) do
+      5.times do |i|
+        process(&quot;process_name_#{i}&quot;) do
+          group                                 &quot;mongrels&quot;
+          start_command &quot;/usr/bin/some_start_command&quot;
+          pid_file                      &quot;/tmp/some_pid_file.pid.#{i}&quot;
+        end
+      end
+    end
+</pre>
+<p>
+If you want to run the process as someone other than root:
+</p>
+<pre>
+    Bluepill.application(&quot;app_name&quot;) do
+      process(&quot;process_name&quot;) do
+        start_command   &quot;/usr/bin/some_start_command&quot;
+        pid_file                                &quot;/tmp/some_pid_file.pid&quot;
+        uid                                             &quot;deploy&quot;
+        gid                                             &quot;deploy&quot;
+
+        checks :cpu_usage, :every =&gt; 10.seconds, :below =&gt; 5, :times =&gt; 3
+        checks :mem_usage, :every =&gt; 10.seconds, :below =&gt; 100.megabytes, :times =&gt; [3,5]
+      end
+    end
+</pre>
+<p>
+You can also set an app-wide uid/gid:
+</p>
+<pre>
+    Bluepill.application(&quot;app_name&quot;) do
+      uid &quot;deploy&quot;
+      gid &quot;deploy&quot;
+      process(&quot;process_name&quot;) do
+        start_command   &quot;/usr/bin/some_start_command&quot;
+        pid_file                                &quot;/tmp/some_pid_file.pid&quot;
+      end
+    end
+</pre>
+<p>
+To check for flapping:
+</p>
+<pre>
+    process.checks :flapping, :times =&gt; 2, :within =&gt; 30.seconds, :retry_in =&gt; 7.seconds
+</pre>
+<p>
+To set the working directory to <em>cd</em> into when starting the command:
+</p>
+<pre>
+    Bluepill.application(&quot;app_name&quot;) do
+      process(&quot;process_name&quot;) do
+        start_command   &quot;/usr/bin/some_start_command&quot;
+        pid_file                                &quot;/tmp/some_pid_file.pid&quot;
+        working_dir             &quot;/path/to/some_directory&quot;
+      end
+    end
+</pre>
+<p>
+You can also have an app-wide working directory:
+</p>
+<pre>
+    Bluepill.application(&quot;app_name&quot;) do
+                        working_dir &quot;/path/to/some_directory&quot;
+
+                        process(&quot;process_name&quot;) do
+        start_command &quot;/usr/bin/some_start_command&quot;
+        pid_file                        &quot;/tmp/some_pid_file.pid&quot;
+      end
+    end
+</pre>
+<p>
+Note: We also set the PWD in the environment to the working dir you
+specify. This is useful for when the working dir is a symlink. Unicorn in
+particular will cd into the environment variable in PWD when it re-execs to
+deal with a change in the symlink.
+</p>
+<p>
+And lastly, to monitor child processes:
+</p>
+<pre>
+        process(&quot;process_name&quot;) do
+    monitor_children do |child_process|
+      child_process.checks :cpu_usage, :every =&gt; 10, :below =&gt; 5, :times =&gt; 3
+      child_process.checks :mem_usage, :every =&gt; 10, :below =&gt; 100.megabytes, :times =&gt; [3, 5]
+
+      child_process.stop_command = &quot;kill -QUIT {{PID}}&quot;
+                end
+        end
+</pre>
+<p>
+Note {{PID}} will be substituted for the pid of process in both the stop
+and restart commands.
+</p>
+<p>
+### A Note About Output Redirection
+</p>
+<p>
+While you can specify shell tricks like the following in the start_command
+of a process:
+</p>
+<pre>
+    Bluepill.application(&quot;app_name&quot;) do |app|
+      app.process(&quot;process_name&quot;) do |process|
+        process.start_command = &quot;cd /tmp/some_dir &amp;&amp; SOME_VAR=1 /usr/bin/some_start_command &gt; /tmp/server.log 2&gt;&amp;1&quot;
+        process.pid_file = &quot;/tmp/some_pid_file.pid&quot;
+      end
+    end
+</pre>
+<p>
+We recommend that you <em>not</em> do that and instead use the config
+options to capture output from your daemons. Like so:
+</p>
+<pre>
+    Bluepill.application(&quot;app_name&quot;) do |app|
+      app.process(&quot;process_name&quot;) do |process|
+        process.start_command = &quot;/usr/bin/env SOME_VAR=1 /usr/bin/some_start_command&quot;
+
+        process.working_dir = &quot;/tmp/some_dir&quot;
+        process.stdout = process.stderr = &quot;/tmp/server.log&quot;
+
+        process.pid_file = &quot;/tmp/some_pid_file.pid&quot;
+      end
+    end
+</pre>
+<p>
+The main benefit of using the config options is that <a
+href="../classes/Bluepill.html">Bluepill</a> will be able to monitor the
+correct process instead of just watching the shell that spawned your actual
+server.
+</p>
+<p>
+### CLI To start a bluepill process and load a config:
+</p>
+<pre>
+    sudo bluepill load /path/to/production.pill
+</pre>
+<p>
+To act on a process or group:
+</p>
+<pre>
+    sudo bluepill &lt;start|stop|restart|unmonitor&gt; &lt;process_or_group_name&gt;
+</pre>
+<p>
+To view process statuses:
+</p>
+<pre>
+    sudo bluepill status
+</pre>
+<p>
+To view the log for a process or group:
+</p>
+<pre>
+    sudo bluepill log &lt;process_or_group_name&gt;
+</pre>
+<p>
+To quit bluepill:
+</p>
+<pre>
+    sudo bluepill quit
+</pre>
+<p>
+### Logging By default, bluepill uses syslog local6 facility as described
+in the installation section. But if for any reason you don&#8216;t want to
+use syslog, you can use a log file. You can do this by setting the
+:log_file option in the config:
+</p>
+<pre>
+    Bluepill.application(&quot;app_name&quot;, :log_file =&gt; &quot;/path/to/bluepill.log&quot;) do |app|
+      # ...
+    end
+</pre>
+<p>
+Keep in mind that you still need to set up log rotation (described in the
+installation section) to keep the log file from growing huge.
+</p>
+<p>
+### Extra options You can run bluepill in the foreground:
+</p>
+<pre>
+    Bluepill.application(&quot;app_name&quot;, :foreground =&gt; true) do |app|
+      # ...
+    end
+</pre>
+<p>
+## Links Code: [<a
+href="http://github.com/arya/bluepill](http://github.com/arya/bluepill">github.com/arya/bluepill](http://github.com/arya/bluepill</a>)
+Bugs/Features: [<a
+href="http://github.com/arya/bluepill/issues](http://github.com/arya/bluepill/issues">github.com/arya/bluepill/issues](http://github.com/arya/bluepill/issues</a>)
+Mailing List: [<a
+href="http://groups.google.com/group/bluepill-rb](http://groups.google.com/group/bluepill-rb">groups.google.com/group/bluepill-rb](http://groups.google.com/group/bluepill-rb</a>)
+</p>
+<p>
+[gemcutter]: <a href="http://gemcutter.org">gemcutter.org</a>
+</p>
+
+    </div>
+
+
+   </div>
+
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

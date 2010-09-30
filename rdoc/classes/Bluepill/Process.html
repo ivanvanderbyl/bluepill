@@ -1,0 +1,1098 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class: Bluepill::Process</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Class</strong></td>
+          <td class="class-name-in-header">Bluepill::Process</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../files/lib/bluepill/process_rb.html">
+                lib/bluepill/process.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        <tr class="top-aligned-row">
+            <td><strong>Parent:</strong></td>
+            <td>
+                Object
+            </td>
+        </tr>
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000147">actual_pid</a>&nbsp;&nbsp;
+      <a href="#M000148">actual_pid=</a>&nbsp;&nbsp;
+      <a href="#M000136">add_trigger</a>&nbsp;&nbsp;
+      <a href="#M000135">add_watch</a>&nbsp;&nbsp;
+      <a href="#M000149">clear_pid</a>&nbsp;&nbsp;
+      <a href="#M000144">daemonize?</a>&nbsp;&nbsp;
+      <a href="#M000154">deep_copy</a>&nbsp;&nbsp;
+      <a href="#M000138">determine_initial_state</a>&nbsp;&nbsp;
+      <a href="#M000132">dispatch!</a>&nbsp;&nbsp;
+      <a href="#M000139">handle_user_command</a>&nbsp;&nbsp;
+      <a href="#M000131">logger=</a>&nbsp;&nbsp;
+      <a href="#M000145">monitor_children?</a>&nbsp;&nbsp;
+      <a href="#M000129">new</a>&nbsp;&nbsp;
+      <a href="#M000134">notify_triggers</a>&nbsp;&nbsp;
+      <a href="#M000155">prepare_command</a>&nbsp;&nbsp;
+      <a href="#M000140">process_running?</a>&nbsp;&nbsp;
+      <a href="#M000133">record_transition</a>&nbsp;&nbsp;
+      <a href="#M000153">refresh_children!</a>&nbsp;&nbsp;
+      <a href="#M000143">restart_process</a>&nbsp;&nbsp;
+      <a href="#M000137">run_watches</a>&nbsp;&nbsp;
+      <a href="#M000146">signal_process</a>&nbsp;&nbsp;
+      <a href="#M000151">skip_ticks_for</a>&nbsp;&nbsp;
+      <a href="#M000152">skipping_ticks?</a>&nbsp;&nbsp;
+      <a href="#M000141">start_process</a>&nbsp;&nbsp;
+      <a href="#M000142">stop_process</a>&nbsp;&nbsp;
+      <a href="#M000156">system_command_options</a>&nbsp;&nbsp;
+      <a href="#M000130">tick</a>&nbsp;&nbsp;
+      <a href="#M000150">unlink_pid</a>&nbsp;&nbsp;
+      <a href="#M000157">with_timeout</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+    <div id="constants-list">
+      <h3 class="section-bar">Constants</h3>
+
+      <div class="name-list">
+        <table summary="Constants">
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">CONFIGURABLE_ATTRIBUTES</td>
+          <td>=</td>
+          <td class="context-item-value">[       :start_command,        :stop_command,        :restart_command,               :stdout,       :stderr,       :stdin,              :should_daemonize,        :pid_file,        :working_dir,       :environment,              :start_grace_time,        :stop_grace_time,        :restart_grace_time,              :uid,       :gid,              :monitor_children,       :child_process_template</td>
+        </tr>
+        </table>
+      </div>
+    </div>
+
+
+
+    <div id="attribute-list">
+      <h3 class="section-bar">Attributes</h3>
+
+      <div class="name-list">
+        <table>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">app</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">children</td>
+          <td class="context-item-value">&nbsp;[R]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">logger</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">name</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">skip_ticks_until</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">statistics</td>
+          <td class="context-item-value">&nbsp;[R]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">triggers</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">watches</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        </table>
+      </div>
+    </div>
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Class methods</h3>
+
+      <div id="method-M000129" class="method-detail">
+        <a name="M000129"></a>
+
+        <div class="method-heading">
+          <a href="#M000129" class="method-signature">
+          <span class="method-name">new</span><span class="method-args">(process_name, options = {})</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000129-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000129-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/bluepill/process.rb, line 88</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">process_name</span>, <span class="ruby-identifier">options</span> = {})      
+      <span class="ruby-ivar">@name</span> = <span class="ruby-identifier">process_name</span>
+      <span class="ruby-ivar">@event_mutex</span> = <span class="ruby-constant">Monitor</span>.<span class="ruby-identifier">new</span>
+      <span class="ruby-ivar">@transition_history</span> = <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">RotationalArray</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">10</span>)
+      <span class="ruby-ivar">@watches</span> = []
+      <span class="ruby-ivar">@triggers</span> = []
+      <span class="ruby-ivar">@children</span> = []
+      <span class="ruby-ivar">@statistics</span> = <span class="ruby-constant">ProcessStatistics</span>.<span class="ruby-identifier">new</span>
+      
+      <span class="ruby-comment cmt"># These defaults are overriden below if it's configured to be something else.</span>
+      <span class="ruby-ivar">@monitor_children</span> =  <span class="ruby-keyword kw">false</span>
+      <span class="ruby-ivar">@start_grace_time</span> = <span class="ruby-ivar">@stop_grace_time</span> = <span class="ruby-ivar">@restart_grace_time</span> = <span class="ruby-value">3</span>
+      <span class="ruby-ivar">@environment</span> = {}
+      
+      <span class="ruby-constant">CONFIGURABLE_ATTRIBUTES</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">attribute_name</span><span class="ruby-operator">|</span>
+        <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">send</span>(<span class="ruby-node">&quot;#{attribute_name}=&quot;</span>, <span class="ruby-identifier">options</span>[<span class="ruby-identifier">attribute_name</span>]) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">options</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">attribute_name</span>)
+      <span class="ruby-keyword kw">end</span>
+            
+      <span class="ruby-comment cmt"># Let state_machine do its initialization stuff</span>
+      <span class="ruby-keyword kw">super</span>() <span class="ruby-comment cmt"># no arguments intentional</span>
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000147" class="method-detail">
+        <a name="M000147"></a>
+
+        <div class="method-heading">
+          <a href="#M000147" class="method-signature">
+          <span class="method-name">actual_pid</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000147-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000147-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/bluepill/process.rb, line 319</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">actual_pid</span>
+      <span class="ruby-ivar">@actual_pid</span> <span class="ruby-operator">||=</span> <span class="ruby-keyword kw">begin</span>
+        <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">pid_file</span>
+          <span class="ruby-keyword kw">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exists?</span>(<span class="ruby-identifier">pid_file</span>)
+            <span class="ruby-identifier">str</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">read</span>(<span class="ruby-identifier">pid_file</span>)
+            <span class="ruby-identifier">str</span>.<span class="ruby-identifier">to_i</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">str</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>
+          <span class="ruby-keyword kw">else</span>
+            <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">warning</span>(<span class="ruby-node">&quot;pid_file #{pid_file} does not exist or cannot be read&quot;</span>)
+            <span class="ruby-keyword kw">nil</span>
+          <span class="ruby-keyword kw">end</span>
+        <span class="ruby-keyword kw">end</span>
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000148" class="method-detail">
+        <a name="M000148"></a>
+
+        <div class="method-heading">
+          <a href="#M000148" class="method-signature">
+          <span class="method-name">actual_pid=</span><span class="method-args">(pid)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000148-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000148-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/bluepill/process.rb, line 333</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">actual_pid=</span>(<span class="ruby-identifier">pid</span>)
+      <span class="ruby-ivar">@actual_pid</span> = <span class="ruby-identifier">pid</span>
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000136" class="method-detail">
+        <a name="M000136"></a>
+
+        <div class="method-heading">
+          <a href="#M000136" class="method-signature">
+          <span class="method-name">add_trigger</span><span class="method-args">(name, options = {})</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000136-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000136-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/bluepill/process.rb, line 169</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">add_trigger</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">options</span> = {})
+      <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">triggers</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">Trigger</span>[<span class="ruby-identifier">name</span>].<span class="ruby-identifier">new</span>(<span class="ruby-keyword kw">self</span>, <span class="ruby-identifier">options</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">:logger</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">logger</span>))
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000135" class="method-detail">
+        <a name="M000135"></a>
+
+        <div class="method-heading">
+          <a href="#M000135" class="method-signature">
+          <span class="method-name">add_watch</span><span class="method-args">(name, options = {})</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Watch related methods
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000135-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000135-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/bluepill/process.rb, line 165</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">add_watch</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">options</span> = {})
+      <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">watches</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">ConditionWatch</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">options</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">:logger</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">logger</span>))
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000149" class="method-detail">
+        <a name="M000149"></a>
+
+        <div class="method-heading">
+          <a href="#M000149" class="method-signature">
+          <span class="method-name">clear_pid</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000149-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000149-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/bluepill/process.rb, line 337</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">clear_pid</span>
+      <span class="ruby-ivar">@actual_pid</span> = <span class="ruby-keyword kw">nil</span>
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000144" class="method-detail">
+        <a name="M000144"></a>
+
+        <div class="method-heading">
+          <a href="#M000144" class="method-signature">
+          <span class="method-name">daemonize?</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000144-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000144-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/bluepill/process.rb, line 304</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">daemonize?</span>
+      <span class="ruby-operator">!</span><span class="ruby-operator">!</span><span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">should_daemonize</span>
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000154" class="method-detail">
+        <a name="M000154"></a>
+
+        <div class="method-heading">
+          <a href="#M000154" class="method-signature">
+          <span class="method-name">deep_copy</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000154-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000154-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/bluepill/process.rb, line 382</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">deep_copy</span>
+      <span class="ruby-constant">Marshal</span>.<span class="ruby-identifier">load</span>(<span class="ruby-constant">Marshal</span>.<span class="ruby-identifier">dump</span>(<span class="ruby-keyword kw">self</span>))
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000138" class="method-detail">
+        <a name="M000138"></a>
+
+        <div class="method-heading">
+          <a href="#M000138" class="method-signature">
+          <span class="method-name">determine_initial_state</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000138-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000138-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/bluepill/process.rb, line 197</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">determine_initial_state</span>
+      <span class="ruby-keyword kw">if</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">process_running?</span>(<span class="ruby-keyword kw">true</span>)
+        <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">state</span> = <span class="ruby-value str">'up'</span>
+      <span class="ruby-keyword kw">else</span>
+        <span class="ruby-comment cmt"># TODO: or &quot;unmonitored&quot; if bluepill was started in no auto-start mode.</span>
+        <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">state</span> = <span class="ruby-value str">'down'</span>
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000132" class="method-detail">
+        <a name="M000132"></a>
+
+        <div class="method-heading">
+          <a href="#M000132" class="method-signature">
+          <span class="method-name">dispatch!</span><span class="method-args">(event, reason = nil)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+State machine methods
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000132-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000132-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/bluepill/process.rb, line 137</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">dispatch!</span>(<span class="ruby-identifier">event</span>, <span class="ruby-identifier">reason</span> = <span class="ruby-keyword kw">nil</span>)
+      <span class="ruby-ivar">@event_mutex</span>.<span class="ruby-identifier">synchronize</span> <span class="ruby-keyword kw">do</span>
+        <span class="ruby-ivar">@statistics</span>.<span class="ruby-identifier">record_event</span>(<span class="ruby-identifier">event</span>, <span class="ruby-identifier">reason</span>)
+        <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">send</span>(<span class="ruby-node">&quot;#{event}&quot;</span>)
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000139" class="method-detail">
+        <a name="M000139"></a>
+
+        <div class="method-heading">
+          <a href="#M000139" class="method-signature">
+          <span class="method-name">handle_user_command</span><span class="method-args">(cmd)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000139-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000139-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/bluepill/process.rb, line 206</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">handle_user_command</span>(<span class="ruby-identifier">cmd</span>)
+      <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">cmd</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-value str">&quot;start&quot;</span>
+        <span class="ruby-keyword kw">if</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">process_running?</span>(<span class="ruby-keyword kw">true</span>)
+          <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">warning</span>(<span class="ruby-value str">&quot;Refusing to re-run start command on an already running process.&quot;</span>)
+        <span class="ruby-keyword kw">else</span>
+          <span class="ruby-identifier">dispatch!</span>(<span class="ruby-identifier">:start</span>, <span class="ruby-value str">&quot;user initiated&quot;</span>)
+        <span class="ruby-keyword kw">end</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-value str">&quot;stop&quot;</span>
+        <span class="ruby-identifier">stop_process</span>
+        <span class="ruby-identifier">dispatch!</span>(<span class="ruby-identifier">:unmonitor</span>, <span class="ruby-value str">&quot;user initiated&quot;</span>)
+      <span class="ruby-keyword kw">when</span> <span class="ruby-value str">&quot;restart&quot;</span>
+        <span class="ruby-identifier">restart_process</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-value str">&quot;unmonitor&quot;</span>
+        <span class="ruby-comment cmt"># When the user issues an unmonitor cmd, reset any triggers so that</span>
+        <span class="ruby-comment cmt"># scheduled events gets cleared</span>
+        <span class="ruby-identifier">triggers</span>.<span class="ruby-identifier">each</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">t</span><span class="ruby-operator">|</span> <span class="ruby-identifier">t</span>.<span class="ruby-identifier">reset!</span> }
+        <span class="ruby-identifier">dispatch!</span>(<span class="ruby-identifier">:unmonitor</span>, <span class="ruby-value str">&quot;user initiated&quot;</span>)
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000131" class="method-detail">
+        <a name="M000131"></a>
+
+        <div class="method-heading">
+          <a href="#M000131" class="method-signature">
+          <span class="method-name">logger=</span><span class="method-args">(logger)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000131-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000131-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/bluepill/process.rb, line 130</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">logger=</span>(<span class="ruby-identifier">logger</span>)
+      <span class="ruby-ivar">@logger</span> = <span class="ruby-identifier">logger</span>
+      <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">watches</span>.<span class="ruby-identifier">each</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">w</span><span class="ruby-operator">|</span> <span class="ruby-identifier">w</span>.<span class="ruby-identifier">logger</span> = <span class="ruby-identifier">logger</span> }
+      <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">triggers</span>.<span class="ruby-identifier">each</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">t</span><span class="ruby-operator">|</span> <span class="ruby-identifier">t</span>.<span class="ruby-identifier">logger</span> = <span class="ruby-identifier">logger</span> }
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000145" class="method-detail">
+        <a name="M000145"></a>
+
+        <div class="method-heading">
+          <a href="#M000145" class="method-signature">
+          <span class="method-name">monitor_children?</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000145-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000145-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/bluepill/process.rb, line 308</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">monitor_children?</span>
+      <span class="ruby-operator">!</span><span class="ruby-operator">!</span><span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">monitor_children</span>
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000134" class="method-detail">
+        <a name="M000134"></a>
+
+        <div class="method-heading">
+          <a href="#M000134" class="method-signature">
+          <span class="method-name">notify_triggers</span><span class="method-args">(transition)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000134-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000134-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/bluepill/process.rb, line 160</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">notify_triggers</span>(<span class="ruby-identifier">transition</span>)
+      <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">triggers</span>.<span class="ruby-identifier">each</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">trigger</span><span class="ruby-operator">|</span> <span class="ruby-identifier">trigger</span>.<span class="ruby-identifier">notify</span>(<span class="ruby-identifier">transition</span>)}
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000155" class="method-detail">
+        <a name="M000155"></a>
+
+        <div class="method-heading">
+          <a href="#M000155" class="method-signature">
+          <span class="method-name">prepare_command</span><span class="method-args">(command)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000155-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000155-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/bluepill/process.rb, line 386</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">prepare_command</span>(<span class="ruby-identifier">command</span>)
+      <span class="ruby-identifier">command</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-value str">&quot;{{PID}}&quot;</span>, <span class="ruby-identifier">actual_pid</span>.<span class="ruby-identifier">to_s</span>)
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000140" class="method-detail">
+        <a name="M000140"></a>
+
+        <div class="method-heading">
+          <a href="#M000140" class="method-signature">
+          <span class="method-name">process_running?</span><span class="method-args">(force = false)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+<a href="System.html">System</a> <a href="Process.html">Process</a> Methods
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000140-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000140-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/bluepill/process.rb, line 228</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">process_running?</span>(<span class="ruby-identifier">force</span> = <span class="ruby-keyword kw">false</span>)
+      <span class="ruby-ivar">@process_running</span> = <span class="ruby-keyword kw">nil</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">force</span> <span class="ruby-comment cmt"># clear existing state if forced</span>
+      
+      <span class="ruby-ivar">@process_running</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">signal_process</span>(<span class="ruby-value">0</span>)
+      <span class="ruby-comment cmt"># the process isn't running, so we should clear the PID</span>
+      <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">clear_pid</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-ivar">@process_running</span>
+      <span class="ruby-ivar">@process_running</span>
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000133" class="method-detail">
+        <a name="M000133"></a>
+
+        <div class="method-heading">
+          <a href="#M000133" class="method-signature">
+          <span class="method-name">record_transition</span><span class="method-args">(transition)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000133-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000133-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/bluepill/process.rb, line 144</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">record_transition</span>(<span class="ruby-identifier">transition</span>)
+      <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">transition</span>.<span class="ruby-identifier">loopback?</span>
+        <span class="ruby-ivar">@transitioned</span> = <span class="ruby-keyword kw">true</span>
+        
+        <span class="ruby-comment cmt"># When a process changes state, we should clear the memory of all the watches</span>
+        <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">watches</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">w</span><span class="ruby-operator">|</span> <span class="ruby-identifier">w</span>.<span class="ruby-identifier">clear_history!</span> }
+        
+        <span class="ruby-comment cmt"># Also, when a process changes state, we should re-populate its child list</span>
+        <span class="ruby-keyword kw">if</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">monitor_children?</span>
+          <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">logger</span>.<span class="ruby-identifier">warning</span> <span class="ruby-value str">&quot;Clearing child list&quot;</span>
+          <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">children</span>.<span class="ruby-identifier">clear</span>
+        <span class="ruby-keyword kw">end</span>
+        <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">info</span> <span class="ruby-node">&quot;Going from #{transition.from_name} =&gt; #{transition.to_name}&quot;</span>
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000153" class="method-detail">
+        <a name="M000153"></a>
+
+        <div class="method-heading">
+          <a href="#M000153" class="method-signature">
+          <span class="method-name">refresh_children!</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000153-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000153-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/bluepill/process.rb, line 356</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">refresh_children!</span>
+      <span class="ruby-comment cmt"># First prune the list of dead children</span>
+      <span class="ruby-ivar">@children</span>.<span class="ruby-identifier">delete_if</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">child</span><span class="ruby-operator">|</span> <span class="ruby-operator">!</span><span class="ruby-identifier">child</span>.<span class="ruby-identifier">process_running?</span>(<span class="ruby-keyword kw">true</span>) }
+      
+      <span class="ruby-comment cmt"># Add new found children to the list</span>
+      <span class="ruby-identifier">new_children_pids</span> = <span class="ruby-constant">System</span>.<span class="ruby-identifier">get_children</span>(<span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">actual_pid</span>) <span class="ruby-operator">-</span> <span class="ruby-ivar">@children</span>.<span class="ruby-identifier">map</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">child</span><span class="ruby-operator">|</span> <span class="ruby-identifier">child</span>.<span class="ruby-identifier">actual_pid</span>}
+ 
+      <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">new_children_pids</span>.<span class="ruby-identifier">empty?</span>
+        <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">info</span> <span class="ruby-node">&quot;Existing children: #{@children.collect{|c| c.actual_pid}.join(&quot;,&quot;)}. Got new children: #{new_children_pids.inspect} for #{actual_pid}&quot;</span>
+      <span class="ruby-keyword kw">end</span>
+      
+      <span class="ruby-comment cmt"># Construct a new process wrapper for each new found children</span>
+      <span class="ruby-identifier">new_children_pids</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">child_pid</span><span class="ruby-operator">|</span>
+        <span class="ruby-identifier">child</span> = <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">child_process_template</span>.<span class="ruby-identifier">deep_copy</span>
+        
+        <span class="ruby-identifier">child</span>.<span class="ruby-identifier">name</span> = <span class="ruby-node">&quot;&lt;child(pid:#{child_pid})&gt;&quot;</span>
+        <span class="ruby-identifier">child</span>.<span class="ruby-identifier">actual_pid</span> = <span class="ruby-identifier">child_pid</span>
+        <span class="ruby-identifier">child</span>.<span class="ruby-identifier">logger</span> = <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">logger</span>.<span class="ruby-identifier">prefix_with</span>(<span class="ruby-identifier">child</span>.<span class="ruby-identifier">name</span>)
+        
+        <span class="ruby-identifier">child</span>.<span class="ruby-identifier">initialize_state_machines</span>
+        <span class="ruby-identifier">child</span>.<span class="ruby-identifier">state</span> = <span class="ruby-value str">&quot;up&quot;</span>
+        
+        <span class="ruby-ivar">@children</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">child</span>
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000143" class="method-detail">
+        <a name="M000143"></a>
+
+        <div class="method-heading">
+          <a href="#M000143" class="method-signature">
+          <span class="method-name">restart_process</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000143-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000143-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/bluepill/process.rb, line 281</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">restart_process</span>
+      <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">restart_command</span>
+        <span class="ruby-identifier">cmd</span> = <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">prepare_command</span>(<span class="ruby-identifier">restart_command</span>)
+        
+        <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">warning</span> <span class="ruby-node">&quot;Executing restart command: #{cmd}&quot;</span>
+        
+        <span class="ruby-identifier">with_timeout</span>(<span class="ruby-identifier">restart_grace_time</span>) <span class="ruby-keyword kw">do</span>
+          <span class="ruby-identifier">result</span> = <span class="ruby-constant">System</span>.<span class="ruby-identifier">execute_blocking</span>(<span class="ruby-identifier">cmd</span>, <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">system_command_options</span>)
+
+          <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">result</span>[<span class="ruby-identifier">:exit_code</span>].<span class="ruby-identifier">zero?</span>
+            <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">warning</span> <span class="ruby-value str">&quot;Restart command execution returned non-zero exit code:&quot;</span>
+            <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">warning</span> <span class="ruby-identifier">result</span>.<span class="ruby-identifier">inspect</span>
+          <span class="ruby-keyword kw">end</span>
+        <span class="ruby-keyword kw">end</span>
+        
+        <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">skip_ticks_for</span>(<span class="ruby-identifier">restart_grace_time</span>)
+      <span class="ruby-keyword kw">else</span>
+        <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">warning</span> <span class="ruby-value str">&quot;No restart_command specified. Must stop and start to restart&quot;</span>
+        <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">stop_process</span>
+        <span class="ruby-comment cmt"># the tick will bring it back.</span>
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000137" class="method-detail">
+        <a name="M000137"></a>
+
+        <div class="method-heading">
+          <a href="#M000137" class="method-signature">
+          <span class="method-name">run_watches</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000137-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000137-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/bluepill/process.rb, line 173</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">run_watches</span>
+      <span class="ruby-identifier">now</span> = <span class="ruby-constant">Time</span>.<span class="ruby-identifier">now</span>.<span class="ruby-identifier">to_i</span>
+
+      <span class="ruby-identifier">threads</span> = <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">watches</span>.<span class="ruby-identifier">collect</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">watch</span><span class="ruby-operator">|</span>
+        [<span class="ruby-identifier">watch</span>, <span class="ruby-constant">Thread</span>.<span class="ruby-identifier">new</span> { <span class="ruby-constant">Thread</span>.<span class="ruby-identifier">current</span>[<span class="ruby-identifier">:events</span>] = <span class="ruby-identifier">watch</span>.<span class="ruby-identifier">run</span>(<span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">actual_pid</span>, <span class="ruby-identifier">now</span>) }]
+      <span class="ruby-keyword kw">end</span>
+      
+      <span class="ruby-ivar">@transitioned</span> = <span class="ruby-keyword kw">false</span>
+      
+      <span class="ruby-identifier">threads</span>.<span class="ruby-identifier">inject</span>([]) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">events</span>, (<span class="ruby-identifier">watch</span>, <span class="ruby-identifier">thread</span>)<span class="ruby-operator">|</span>
+        <span class="ruby-identifier">thread</span>.<span class="ruby-identifier">join</span>
+        <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">thread</span>[<span class="ruby-identifier">:events</span>].<span class="ruby-identifier">size</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>
+          <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">info</span> <span class="ruby-node">&quot;#{watch.name} dispatched: #{thread[:events].join(',')}&quot;</span>
+          <span class="ruby-identifier">thread</span>[<span class="ruby-identifier">:events</span>].<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">event</span><span class="ruby-operator">|</span>
+            <span class="ruby-identifier">events</span> <span class="ruby-operator">&lt;&lt;</span> [<span class="ruby-identifier">event</span>, <span class="ruby-identifier">watch</span>.<span class="ruby-identifier">to_s</span>]
+          <span class="ruby-keyword kw">end</span>
+        <span class="ruby-keyword kw">end</span>
+        <span class="ruby-identifier">events</span>
+      <span class="ruby-keyword kw">end</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span>(<span class="ruby-identifier">event</span>, <span class="ruby-identifier">reason</span>)<span class="ruby-operator">|</span>
+        <span class="ruby-keyword kw">break</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@transitioned</span>
+        <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">dispatch!</span>(<span class="ruby-identifier">event</span>, <span class="ruby-identifier">reason</span>)
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000146" class="method-detail">
+        <a name="M000146"></a>
+
+        <div class="method-heading">
+          <a href="#M000146" class="method-signature">
+          <span class="method-name">signal_process</span><span class="method-args">(code)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000146-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000146-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/bluepill/process.rb, line 312</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">signal_process</span>(<span class="ruby-identifier">code</span>)
+      <span class="ruby-operator">::</span><span class="ruby-constant">Process</span>.<span class="ruby-identifier">kill</span>(<span class="ruby-identifier">code</span>, <span class="ruby-identifier">actual_pid</span>)
+      <span class="ruby-keyword kw">true</span>
+    <span class="ruby-keyword kw">rescue</span>
+      <span class="ruby-keyword kw">false</span>
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000151" class="method-detail">
+        <a name="M000151"></a>
+
+        <div class="method-heading">
+          <a href="#M000151" class="method-signature">
+          <span class="method-name">skip_ticks_for</span><span class="method-args">(seconds)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Internal State Methods
+</p>
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000151-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000151-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/bluepill/process.rb, line 346</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">skip_ticks_for</span>(<span class="ruby-identifier">seconds</span>)
+      <span class="ruby-comment cmt"># TODO: should this be addative or longest wins?</span>
+      <span class="ruby-comment cmt">#       i.e. if two calls for skip_ticks_for come in for 5 and 10, should it skip for 10 or 15?</span>
+      <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">skip_ticks_until</span> = (<span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">skip_ticks_until</span> <span class="ruby-operator">||</span> <span class="ruby-constant">Time</span>.<span class="ruby-identifier">now</span>.<span class="ruby-identifier">to_i</span>) <span class="ruby-operator">+</span> <span class="ruby-identifier">seconds</span>.<span class="ruby-identifier">to_i</span>
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000152" class="method-detail">
+        <a name="M000152"></a>
+
+        <div class="method-heading">
+          <a href="#M000152" class="method-signature">
+          <span class="method-name">skipping_ticks?</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000152-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000152-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/bluepill/process.rb, line 352</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">skipping_ticks?</span>
+      <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">skip_ticks_until</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">skip_ticks_until</span> <span class="ruby-operator">&gt;</span> <span class="ruby-constant">Time</span>.<span class="ruby-identifier">now</span>.<span class="ruby-identifier">to_i</span>
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000141" class="method-detail">
+        <a name="M000141"></a>
+
+        <div class="method-heading">
+          <a href="#M000141" class="method-signature">
+          <span class="method-name">start_process</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000141-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000141-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/bluepill/process.rb, line 237</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">start_process</span>
+      <span class="ruby-identifier">$stdout</span>.<span class="ruby-identifier">puts</span> <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">warning</span> <span class="ruby-node">&quot;Executing start command: #{start_command} in #{self.system_command_options[:working_dir]}&quot;</span>
+      
+      <span class="ruby-keyword kw">if</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">daemonize?</span>
+        <span class="ruby-constant">System</span>.<span class="ruby-identifier">daemonize</span>(<span class="ruby-identifier">start_command</span>, <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">system_command_options</span>)
+        
+      <span class="ruby-keyword kw">else</span>
+        <span class="ruby-comment cmt"># This is a self-daemonizing process</span>
+        <span class="ruby-identifier">with_timeout</span>(<span class="ruby-identifier">start_grace_time</span>) <span class="ruby-keyword kw">do</span>
+          <span class="ruby-identifier">result</span> = <span class="ruby-constant">System</span>.<span class="ruby-identifier">execute_blocking</span>(<span class="ruby-identifier">start_command</span>, <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">system_command_options</span>)
+          <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">info</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">system_command_options</span>.<span class="ruby-identifier">inspect</span>
+          <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">result</span>[<span class="ruby-identifier">:exit_code</span>].<span class="ruby-identifier">zero?</span>
+            <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">warning</span> <span class="ruby-value str">&quot;Start command execution returned non-zero exit code:&quot;</span>
+            <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">warning</span> <span class="ruby-identifier">result</span>.<span class="ruby-identifier">inspect</span>
+          <span class="ruby-keyword kw">end</span>          
+        <span class="ruby-keyword kw">end</span>
+      <span class="ruby-keyword kw">end</span>
+            
+      <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">skip_ticks_for</span>(<span class="ruby-identifier">start_grace_time</span>)
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000142" class="method-detail">
+        <a name="M000142"></a>
+
+        <div class="method-heading">
+          <a href="#M000142" class="method-signature">
+          <span class="method-name">stop_process</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000142-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000142-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/bluepill/process.rb, line 258</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">stop_process</span>      
+      <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">stop_command</span>
+        <span class="ruby-identifier">cmd</span> = <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">prepare_command</span>(<span class="ruby-identifier">stop_command</span>)
+        <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">warning</span> <span class="ruby-node">&quot;Executing stop command: #{cmd}&quot;</span>
+        
+        <span class="ruby-identifier">with_timeout</span>(<span class="ruby-identifier">stop_grace_time</span>) <span class="ruby-keyword kw">do</span>
+          <span class="ruby-identifier">result</span> = <span class="ruby-constant">System</span>.<span class="ruby-identifier">execute_blocking</span>(<span class="ruby-identifier">cmd</span>, <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">system_command_options</span>)
+          
+          <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">result</span>[<span class="ruby-identifier">:exit_code</span>].<span class="ruby-identifier">zero?</span>
+            <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">warning</span> <span class="ruby-value str">&quot;Stop command execution returned non-zero exit code:&quot;</span>
+            <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">warning</span> <span class="ruby-identifier">result</span>.<span class="ruby-identifier">inspect</span>
+          <span class="ruby-keyword kw">end</span>
+        <span class="ruby-keyword kw">end</span>
+                
+      <span class="ruby-keyword kw">else</span>
+        <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">warning</span> <span class="ruby-node">&quot;Executing default stop command. Sending TERM signal to #{actual_pid}&quot;</span>
+        <span class="ruby-identifier">signal_process</span>(<span class="ruby-value str">&quot;TERM&quot;</span>)
+      <span class="ruby-keyword kw">end</span>
+      <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">unlink_pid</span> <span class="ruby-comment cmt"># TODO: we only write the pid file if we daemonize, should we only unlink it if we daemonize?</span>
+      
+      <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">skip_ticks_for</span>(<span class="ruby-identifier">stop_grace_time</span>)
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000156" class="method-detail">
+        <a name="M000156"></a>
+
+        <div class="method-heading">
+          <a href="#M000156" class="method-signature">
+          <span class="method-name">system_command_options</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000156-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000156-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/bluepill/process.rb, line 390</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">system_command_options</span>
+      {
+        <span class="ruby-identifier">:uid</span>         =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">uid</span>, 
+        <span class="ruby-identifier">:gid</span>         =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">gid</span>, 
+        <span class="ruby-identifier">:working_dir</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">working_dir</span>,
+        <span class="ruby-identifier">:environment</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">environment</span>,
+        <span class="ruby-identifier">:pid_file</span>    =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">pid_file</span>,
+        <span class="ruby-identifier">:logger</span>      =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">logger</span>,
+        <span class="ruby-identifier">:stdin</span>       =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">stdin</span>,
+        <span class="ruby-identifier">:stdout</span>      =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">stdout</span>,
+        <span class="ruby-identifier">:stderr</span>      =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">stderr</span>
+      }
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000130" class="method-detail">
+        <a name="M000130"></a>
+
+        <div class="method-heading">
+          <a href="#M000130" class="method-signature">
+          <span class="method-name">tick</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000130-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000130-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/bluepill/process.rb, line 110</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">tick</span>
+      <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">if</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">skipping_ticks?</span>
+      <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">skip_ticks_until</span> = <span class="ruby-keyword kw">nil</span>
+
+      <span class="ruby-comment cmt"># clear the memoization per tick</span>
+      <span class="ruby-ivar">@process_running</span> = <span class="ruby-keyword kw">nil</span>
+
+      <span class="ruby-comment cmt"># run state machine transitions</span>
+      <span class="ruby-keyword kw">super</span>
+
+      <span class="ruby-keyword kw">if</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">up?</span>
+        <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">run_watches</span>
+        
+        <span class="ruby-keyword kw">if</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">monitor_children?</span>
+          <span class="ruby-identifier">refresh_children!</span>
+          <span class="ruby-identifier">children</span>.<span class="ruby-identifier">each</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">child</span><span class="ruby-operator">|</span> <span class="ruby-identifier">child</span>.<span class="ruby-identifier">tick</span>}
+        <span class="ruby-keyword kw">end</span>
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000150" class="method-detail">
+        <a name="M000150"></a>
+
+        <div class="method-heading">
+          <a href="#M000150" class="method-signature">
+          <span class="method-name">unlink_pid</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000150-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000150-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/bluepill/process.rb, line 341</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">unlink_pid</span>
+      <span class="ruby-constant">File</span>.<span class="ruby-identifier">unlink</span>(<span class="ruby-identifier">pid_file</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">pid_file</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exists?</span>(<span class="ruby-identifier">pid_file</span>)
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+      <div id="method-M000157" class="method-detail">
+        <a name="M000157"></a>
+
+        <div class="method-heading">
+          <a href="#M000157" class="method-signature">
+          <span class="method-name">with_timeout</span><span class="method-args">(secs, &amp;blk)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p><a class="source-toggle" href="#"
+            onclick="toggleCode('M000157-source');return false;">[Source]</a></p>
+          <div class="method-source-code" id="M000157-source">
+<pre>
+<span class="ruby-comment cmt"># File lib/bluepill/process.rb, line 404</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">with_timeout</span>(<span class="ruby-identifier">secs</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">blk</span>)
+      <span class="ruby-constant">Timeout</span>.<span class="ruby-identifier">timeout</span>(<span class="ruby-identifier">secs</span>.<span class="ruby-identifier">to_f</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">blk</span>)
+      
+    <span class="ruby-keyword kw">rescue</span> <span class="ruby-constant">Timeout</span><span class="ruby-operator">::</span><span class="ruby-constant">Error</span>
+      <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">err</span> <span class="ruby-value str">&quot;Execution is taking longer than expected. Unmonitoring.&quot;</span>
+      <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">err</span> <span class="ruby-value str">&quot;Did you forget to tell bluepill to daemonize this process? Pass true to should_daemonize option in your pill.&quot;</span>
+      <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">dispatch!</span>(<span class="ruby-value str">&quot;unmonitor&quot;</span>)
+    <span class="ruby-keyword kw">end</span>
+</pre>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>
