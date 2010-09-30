@@ -3,7 +3,7 @@ require "daemons"
 
 module Bluepill
   class Process
-    GLOBAL_ATTRIBUTES = {
+    GLOBAL_ATTRIBUTES = [
       :uid,
       :gid,
       :environment,
@@ -11,7 +11,7 @@ module Bluepill
       :stdout,
       :stderr,
       :stdin
-    }
+    ]
     
     CONFIGURABLE_ATTRIBUTES = [
       :start_command, 

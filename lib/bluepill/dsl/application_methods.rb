@@ -12,7 +12,9 @@ module Bluepill
       # Creates a new process to monior
       def process(process_name, &block)
         process_proxy = ProcessMethods.new(process_name.to_s, self)
-        set_app_wide_attributes(process_proxy)
+        
+        assign_global_attributes(process_proxy)
+        
         Blockenspiel.invoke(block, process_proxy)
         process_proxy.assign_process_attributes!
         
@@ -63,11 +65,9 @@ module Bluepill
         end
       end
       
-      def set_app_wide_attributes(process_proxy)
+      def assign_global_attributes(process_proxy)
         Bluepill::Process::GLOBAL_ATTRIBUTES.each do |attribute|
-          unless process_proxy.attributes.key?(attribute)
-            process_proxy.attributes[attribute] = self.send(attribute)
-          end
+          process_proxy.send("#{attribute}=", self.send(attribute))
         end
       end
       
