@@ -14,9 +14,9 @@ module Bluepill
       $stdout.print " Done.\n"
       
       app.load
-    rescue => e
-      $stderr.puts "DSL implementation error: #{e.message}"
-      exit(1)
+    rescue DSLConfigError => e
+      $stderr.puts "Config error: #{e.message}"
+      exit(6)
     end
   end
 end

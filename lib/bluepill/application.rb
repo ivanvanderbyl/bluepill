@@ -47,15 +47,15 @@ module Bluepill
     end
     
     PROCESS_COMMANDS.each do |command|
-      class_eval <<-END
+      class_eval <<-LOL
         def #{command}(group_name = nil, process_name = nil)
           self.send_to_process_or_group(:#{command}, group_name, process_name)
         end
-      END
+      LOL
     end
     
-    def add_process(process, group_name = nil)
-      group_name = group_name.to_s if group_name
+    def add_process(process)
+      group_name = process.group.nil? ? nil : process.group.to_s
       
       self.groups[group_name] ||= Group.new(group_name, :logger => self.logger.prefix_with(group_name))
       self.groups[group_name].add_process(process)

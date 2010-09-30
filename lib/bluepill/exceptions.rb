@@ -1,5 +1,9 @@
 module Bluepill
-  class InvalidWorkingDirectoryError < Exception; end
+  class GenericError < Exception; end
+  class DSLConfigError < Exception; end
   
-  class DuplicateProcessNameError < Exception; end
+  class InvalidWorkingDirectoryError < DSLConfigError; end
+  class DuplicateProcessNameError < DSLConfigError; end
+  class DuplicatePidFileError < DSLConfigError; end
+  class MissingRequiredAttributeError < DSLConfigError; end
 end

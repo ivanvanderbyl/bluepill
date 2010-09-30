@@ -7,10 +7,7 @@ module Bluepill
       :uid,
       :gid,
       :environment,
-      :working_dir,
-      :stdout,
-      :stderr,
-      :stdin
+      :working_dir
     ]
     
     CONFIGURABLE_ATTRIBUTES = [
@@ -114,11 +111,11 @@ module Bluepill
       CONFIGURABLE_ATTRIBUTES.each do |attribute_name|
         self.send("#{attribute_name}=", options[attribute_name]) if options.has_key?(attribute_name)
       end
-      
+            
       # Let state_machine do its initialization stuff
       super() # no arguments intentional
     end
-
+    
     def tick
       return if self.skipping_ticks?
       self.skip_ticks_until = nil

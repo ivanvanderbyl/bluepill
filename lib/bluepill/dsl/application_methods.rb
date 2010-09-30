@@ -13,64 +13,34 @@ module Bluepill
       def process(process_name, &block)
         process_proxy = ProcessMethods.new(process_name.to_s, self)
         
+        # Assigns all attributes from application scope and assigns to process
         assign_global_attributes(process_proxy)
         
         Blockenspiel.invoke(block, process_proxy)
+        # Takes everything which we set in the DSL and loads it into @attributes
         process_proxy.assign_process_attributes!
         
         process_proxy.create_child_process_template
         
         assign_default_pid_file(process_proxy, process_name.to_s)
-        validate_process(process_proxy, process_name.to_s)
         
-        group = process_proxy.attributes.delete(:group)
+        # Validate process
+        process_proxy.validate!
+        
+        # Assign group to process
         process = process_proxy.to_process(process_name.to_s)
         
-        self.app.add_process(process, group)
+        self.app.add_process(process)
       end
       
-      # Exclude these methods from being callable from within the DSL (using paramerless blocks)
-      # A bit like making them private in a class.
-      dsl_method :validate_process, false
-      dsl_method :set_app_wide_attributes, false
-      dsl_method :assign_default_pid_file, false
-      
-      def validate_process(process, process_name)
-        # validate uniqueness of group:process
-        process_key = [process.attributes[:group], process_name].join(":")
-        if self.process_keys.key?(process_key)
-          $stderr.print "Config Error: You have two entries for the process name '#{process_name}'"
-          $stderr.print " in the group '#{process.attributes[:group]}'" if process.attributes.key?(:group)
-          $stderr.puts
-          exit(6)
-        else
-          self.process_keys[process_key] = 0
-        end
-        
-        # validate required attributes
-        [:start_command].each do |required_attr|
-          if !process.attributes.key?(required_attr)
-            $stderr.puts "Config Error: You must specify a #{required_attr} for '#{process_name}'"
-            exit(6)
-          end
-        end
-        
-        # validate uniqueness of pid files
-        pid_key = process.pid_file.strip
-        if self.pid_files.key?(pid_key)
-          $stderr.puts "Config Error: You have two entries with the pid file: #{process.pid_file}"
-          exit(6)
-        else
-          self.pid_files[pid_key] = 0
-        end
-      end
-      
+      # :nodoc
       def assign_global_attributes(process_proxy)
         Bluepill::Process::GLOBAL_ATTRIBUTES.each do |attribute|
           process_proxy.send("#{attribute}=", self.send(attribute))
         end
       end
       
+      # :nodoc
       def assign_default_pid_file(process_proxy, process_name)
         unless process_proxy.attributes.key?(:pid_file)
           group_name = process_proxy.attributes["group"]

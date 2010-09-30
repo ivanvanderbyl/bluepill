@@ -14,18 +14,93 @@ describe 'Blueprint::DSL::ApplicationMethods' do
   it "should check working directory when setting it" do
     lambda {
       app(:my_app, :base_dir => ROOT_PATH) do
-        working_dir '/some/non/existant/path'
+        working_dir '/some/non/existent/path'
+        process(:my_process_1) do
+          pid_file      "tmp/pids/#{name}.pid"
+          start_command 'start'
+        end
+      end
+    }.should raise_exception(Bluepill::InvalidWorkingDirectoryError)
+    
+    lambda {
+      app(:my_app_1, :base_dir => ROOT_PATH) do
+        process(:my_process_1) do
+          pid_file      "tmp/pids/#{name}.pid"
+          start_command 'start'
+          working_dir   '/some/non/existent/path'
+        end
       end
     }.should raise_exception(Bluepill::InvalidWorkingDirectoryError)
   end
   
+  it "should validate presence of pid_file" do
+    lambda {
+      app(:my_app_1, :base_dir => ROOT_PATH) do
+        process(:my_process_1) do
+          # pid_file      "tmp/pids/#{name}.pid"
+          start_command 'start'
+          working_dir   ROOT_PATH
+        end
+      end
+    }.should raise_exception(Bluepill::MissingRequiredAttributeError)
+  end
   
+  it "should validate uniqueness of pid_file" do
+    lambda {
+      app(:my_app_1, :base_dir => ROOT_PATH) do
+        process(:my_process_1) do
+          pid_file      "tmp/pids/my_process_1.pid"
+          start_command 'start'
+          working_dir   ROOT_PATH
+        end
+        
+        process(:my_process_2) do
+          pid_file      "tmp/pids/my_process_1.pid"
+          start_command 'start'
+          working_dir   ROOT_PATH
+        end
+      end
+    }.should raise_exception(Bluepill::DuplicatePidFileError)
+  end
+  
+  it "should validate uniqueness of process name and group" do
+    lambda {
+      app(:my_app_1, :base_dir => ROOT_PATH) do
+        process(:my_process_1) do
+          group         'workers'
+          pid_file      "tmp/pids/my_process_1.pid"
+          start_command 'start'
+          working_dir   ROOT_PATH
+        end
+        
+        process(:my_process_1) do
+          group         'workers'
+          pid_file      "tmp/pids/my_process_2.pid"
+          start_command 'start'
+          working_dir   ROOT_PATH
+        end
+      end
+    }.should raise_exception(Bluepill::DuplicateProcessNameError)
+  end
+  
+  it "should validate requirement of start_command" do
+    lambda {
+      app(:my_app_1, :base_dir => ROOT_PATH) do
+        process(:my_process_1) do
+          # pid_file      "tmp/pids/#{name}.pid"
+          # start_command 'start'
+          working_dir   ROOT_PATH
+        end
+      end
+    }.should raise_exception(Bluepill::MissingRequiredAttributeError)
+  end
   
   it "should set application attributes on process" do
     app(:my_app, :base_dir => ROOT_PATH) do
       working_dir ROOT_PATH
       process(:process_1) do
         pid_file "#{name}.pid"
+        start_command 'start'
       end
     end
     
@@ -86,7 +161,11 @@ describe 'Blueprint::DSL::ApplicationMethods' do
   
   it "should set global process attributes" do
     app(:my_app, :base_dir => ROOT_PATH) do
+      
       working_dir File.expand_path(File.dirname(__FILE__))
+      uid 'user'
+      gid 'group'
+      environment(:RAILS_ENV => 'production')
       
       process(:my_process) do
         group 'workers'
@@ -101,17 +180,10 @@ describe 'Blueprint::DSL::ApplicationMethods' do
         daemonize true
         pid_file "tmp/pids/#{name}.pid"
         
-        environment(:RAILS_ENV => 'production')
-        
         start_grace_time 20.seconds
         stop_grace_time 10.seconds
         restart_grace_time 30.seconds
         
-        uid 'user'
-        gid 'group'
-                  
-        # monitor_children,
-        # child_process_template
       end
     end
     
