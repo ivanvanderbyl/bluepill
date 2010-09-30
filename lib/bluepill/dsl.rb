@@ -15,8 +15,8 @@ module Bluepill
       
       app.load
     rescue DSLConfigError => e
-      $stderr.puts " Failed.\n"
-      $stderr.puts "Config error: #{e.message}"
+      $stdout.puts " Failed.\n"
+      $stdout.puts "Config error: #{e.message}"
       exit(6)
     end
   end
