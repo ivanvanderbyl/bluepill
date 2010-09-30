@@ -3,7 +3,6 @@ module Bluepill
     class ProcessMethods < Base
       attr_reader :attributes, :watches, :name, :app
       dsl_attr_accessor *Bluepill::Process::CONFIGURABLE_ATTRIBUTES
-      dsl_attr_accessor :group
       
       def initialize(process_name, app_methods)
         @name = process_name

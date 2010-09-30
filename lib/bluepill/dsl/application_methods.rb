@@ -12,16 +12,17 @@ module Bluepill
       # Creates a new process to monior
       def process(process_name, &block)
         process_proxy = ProcessMethods.new(process_name.to_s, self)
+        set_app_wide_attributes(process_proxy)
         Blockenspiel.invoke(block, process_proxy)
         process_proxy.assign_process_attributes!
         
         process_proxy.create_child_process_template
-        set_app_wide_attributes(process_proxy)
-        assign_default_pid_file(process_proxy, process_name)
-        validate_process(process_proxy, process_name)
+        
+        assign_default_pid_file(process_proxy, process_name.to_s)
+        validate_process(process_proxy, process_name.to_s)
         
         group = process_proxy.attributes.delete(:group)
-        process = process_proxy.to_process(process_name)
+        process = process_proxy.to_process(process_name.to_s)
         
         self.app.add_process(process, group)
       end
@@ -63,7 +64,7 @@ module Bluepill
       end
       
       def set_app_wide_attributes(process_proxy)
-        [:working_dir, :uid, :gid, :environment].each do |attribute|
+        Bluepill::Process::GLOBAL_ATTRIBUTES.each do |attribute|
           unless process_proxy.attributes.key?(attribute)
             process_proxy.attributes[attribute] = self.send(attribute)
           end

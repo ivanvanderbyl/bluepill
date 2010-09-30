@@ -3,6 +3,16 @@ require "daemons"
 
 module Bluepill
   class Process
+    GLOBAL_ATTRIBUTES = {
+      :uid,
+      :gid,
+      :environment,
+      :working_dir,
+      :stdout,
+      :stderr,
+      :stdin
+    }
+    
     CONFIGURABLE_ATTRIBUTES = [
       :start_command, 
       :stop_command, 
@@ -20,6 +30,8 @@ module Bluepill
       :start_grace_time, 
       :stop_grace_time, 
       :restart_grace_time,
+      
+      :group,
       
       :uid,
       :gid,
@@ -102,7 +114,7 @@ module Bluepill
       CONFIGURABLE_ATTRIBUTES.each do |attribute_name|
         self.send("#{attribute_name}=", options[attribute_name]) if options.has_key?(attribute_name)
       end
-            
+      
       # Let state_machine do its initialization stuff
       super() # no arguments intentional
     end

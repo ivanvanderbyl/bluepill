@@ -29,7 +29,7 @@ require "bluepill/dsl/base"
 require "bluepill/dsl/application_methods"
 require "bluepill/dsl/process_methods"
 require "bluepill/system"
-
+require "bluepill/exceptions"
 require "bluepill/process_conditions"
 
 require "bluepill/util/rotational_array"
