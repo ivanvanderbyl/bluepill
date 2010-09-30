@@ -26,12 +26,7 @@ in the group '#{self.group}'
         else
           self.app.process_keys[process_key] = 0
         end
-        
-        # Validate existence working directory, if given
-        unless self.working_dir.nil?
-          raise InvalidWorkingDirectoryError, "Working directory '#{self.working_dir}' doesn't exist" unless File.directory?(self.working_dir)
-        end
-        
+                
         # validate required attributes, start_command and pid_file
         [:start_command, :pid_file].each do |required_attr|
           if self.send(required_attr).blank?
@@ -47,6 +42,14 @@ in the group '#{self.group}'
           self.app.pid_files[pid_key] = 0
         end
         
+        # Validate existence working directory, if given
+        unless self.working_dir.nil?
+          raise InvalidWorkingDirectoryError, "Working directory '#{self.working_dir}' doesn't exist" unless File.directory?(self.working_dir)
+        end
+        
+        # Validate existence pid_file directory
+        pid_file_dir = File.dirname(self.pid_file)
+        raise InvalidWorkingDirectoryError, "pid_file directory '#{pid_file_dir}' doesn't exist" unless File.directory?(pid_file_dir)
       end
       
       def assign_process_attributes!

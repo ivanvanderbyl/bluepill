@@ -1,0 +1,9 @@
+Bluepill.application(:easylodge) do
+  working_dir "/Users/ivan/dev/ruby/easylodge"
+  
+  process(:delayed_job) do
+    start_command 'script/delayed_job start'
+    pid_file "#{working_dir}/tmp/pids/#{name}.pid"
+    uid "ivan"
+  end
+end
