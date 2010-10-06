@@ -3,6 +3,7 @@
 coverage
 rdoc
 pkg
-tmp
+tmp/*
 pids
 bp
+rdoc
