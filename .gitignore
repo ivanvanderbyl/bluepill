@@ -7,3 +7,5 @@ tmp/*
 pids
 bp
 rdoc
+.bundle
+*easylodge*
