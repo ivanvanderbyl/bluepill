@@ -1,14 +1,15 @@
-# This is Ivan's fork of Bluepill, it's largely experimental and might not work as expected, so you will probably want to use this fork: [http://github.com/arya/bluepill](http://github.com/arya/bluepill) 
+# This is Ivan's fork of Bluepill, it contains a completely rewritten DSL implementation with extended error checking, it should be 99.99% compatible with older config files, however if you experience weird behaviour, use another branch. Like [http://github.com/arya/bluepill](http://github.com/arya/bluepill) 
 
-## This fork contains a redesigned, much simpler DSL, all examples and docs will not be compatible with other forks.
+## This fork contains a redesigned, much simpler DSL, these docs are not backwards compatible.
 
 # Bluepill
 Bluepill is a simple process monitoring tool written in Ruby. 
 
 ## Installation
-It's hosted on [gemcutter.org][gemcutter].
 
-    sudo gem install bluepill
+    git clone git://github.com/ivanvanderbyl/bluepill.git
+    cd bluepill
+    sudo rake install
     
 In order to take advantage of logging with syslog, you also need to setup your syslog to log the local6 facility. Edit the appropriate config file for your syslogger (/etc/syslog.conf for syslog) and add a line for local6:
 
